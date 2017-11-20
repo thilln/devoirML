@@ -1,0 +1,193 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{bbm}
+ 
+\DeclareMathOperator*{\argmin}{arg\,min}
+ 
+ 
+\begin{document}
+ 
+
+ 
+\title{Assignment 2 \& 3}%replace X with the appropriate number
+\author{Paul Thillen\\ %replace with your name
+IFT3395/6390 - Machine learning} %if necessary, replace with your course title
+ 
+\maketitle
+ 
+\section{Theoretical part A}
+\subsection{}
+To show: 
+\begin{align*}
+sigmoid(x)=\frac{1}{2} ( tanh(\frac{x}{2})+1)
+\end{align*}
+Which is equivalent to showing:
+\begin{align*}
+tanh(x) = 2 \cdot sigmoid(2x)-1
+\end{align*}
+We have:
+\begin{align*}
+tanh(x) & = \frac{e^x-e^{-x}}{e^x+e^{-x}} = \frac{e^x-\frac{1}{e^x}}{e^x+\frac{1}{e^x}} = \frac{\frac{e^{2x}-1}{e^x}}{\frac{e^{2x}+1}{e^x}} \\
+& = \frac{e^{2x}-1}{e^{2x}+1}
+\end{align*}
+and:
+\begin{align*}
+sigmoid(x) &= \frac{1}{1+e^{-x}} =  \frac{1}{1+\frac{1}{e^{x}}} = \frac{1}{\frac{e^x+1}{e^x}} \\
+& = \frac{e^x}{e^x+1}
+\end{align*}
+consequently:
+\begin{align*}
+2 \cdot sigmoid(2x) - 1 & = 2 \cdot \frac{ e^{2x}}{e^{2x}+1}-1 \\
+& = \frac{ 2 \cdot e^{2x}}{e^{2x}+1}- \frac{e^{2x}+1}{e^{2x}+1} \\
+& = \frac{e^{2x}-1}{e^{2x}+1} = tanh(x)
+\end{align*}
+\subsection{}
+To show:
+\begin{align*}
+ln(sigmoid(x)) = -softplus(-x)
+\end{align*}
+We have:
+\begin{align*}
+ln(sigmoid(x)) = ln ( \frac{1}{1+e^{-x}} ) = - ln( 1+e^{-x} ) = - softplus(-x)
+\end{align*}
+\subsection{}
+To show:
+\begin{align*}
+sigmoid'(x) = sigmoid(x) \cdot (1-sigmoid(x))
+\end{align*}
+We have:
+\begin{align*}
+sigmoid'(x) & = (\frac{e^x}{1+e^x})' \\
+& =  \frac{e^x(1+e^x)-e^x \cdot e^x}{(1+e^x)^2} \\
+& = \frac{e^x}{1+e^x} (1-\frac{e^x}{1+e^x}) \\
+& = sigmoid(x) \cdot (1-sigmoid(x))
+\end{align*}
+\subsection{}
+To show:
+\begin{align*}
+tanh'(x) = 1-tanh^2(x)
+\end{align*}
+We have:
+\begin{align*}
+tanh'(x) & = (\frac{e^x-e^{-x}}{e^x+e^{-x}})' \\
+& = \frac{(e^x+e^{-x})^2-(e^x-e^{-x})^2}{(e^x+e^{-x})^2} \\
+& = 1 - \frac{(e^x-e^{-x})^2}{(e^x+e^{-x})^2} \\
+& = 1 -tanh^2(x)
+\end{align*}
+\subsection{Write sign using only indicator functions}
+\begin{align*}
+sgn(x) & = \mathbbm{1}_\mathbb{R_+}(x) - \mathbbm{1}_\mathbb{R_-}(x)
+\end{align*}
+\subsection{Derivative of abs}
+\begin{align*}
+abs(x)=\begin{cases}
+               x$, if $ x > 0 \\
+               0 $, if $ x = 0 \\
+               -x$, if $ x < 0 \\
+            \end{cases}
+\end{align*}
+\begin{align*}
+abs'(x)=\begin{cases}
+               1$, if $ x > 0 \\
+               0 $, if $ x = 0 \\
+               -1$, if $ x < 0 \\
+            \end{cases}
+\end{align*}
+\subsection{Derivative of rect}
+\begin{align*}
+rect(x)=\begin{cases}
+               x$, if $ x > 0 \\
+               0 $, else$ \\
+            \end{cases} = \mathbbm{1}_{\{x>0\}}(x) \cdot x
+\end{align*}
+\begin{align*}
+rect'(x) = \mathbbm{1}_{\{x>0\}}(x)
+\end{align*}
+\subsection{L2 gradient}
+\begin{align*}
+\frac{\partial || x ||^2_2}{\partial x} = \begin{pmatrix}
+\frac{\partial}{\partial x_1} || x ||^2_2 \\
+... \\
+\frac{\partial}{\partial x_d} || x ||^2_2 \\
+\end{pmatrix} = 
+\begin{pmatrix}
+2x_1 \\
+... \\
+2x_d \\
+\end{pmatrix}
+\end{align*}
+\subsection{L1 gradient}
+\begin{align*}
+\frac{\partial || x ||_1}{\partial x} = \begin{pmatrix}
+\frac{\partial}{\partial x_1} || x ||_1 \\
+... \\
+\frac{\partial}{\partial x_d} || x ||_1 \\
+\end{pmatrix} = 
+\begin{pmatrix}
+abs'(x_1) \\
+... \\
+abs'(x_d) \\
+\end{pmatrix}
+\end{align*}
+
+\section{Theoretical part B}
+\subsection{}
+Dimensions of $W^{(1)}$ and $b^{(1)}$:
+\begin{align*}
+dim(W^{(1)}) = d_h \times d \\
+dim(b^{(1)}) = d_h \\
+\end{align*}
+Preactivation vector of neurons of the hidden layer $h^a$ where $w_j^{(1)}$ is the $j$-th row of $W^{(1)}$.
+\begin{align*}
+h^a=W^{(1)} \cdot x + b^{(1)} \\
+h^a_j = w_j^{(1)} \cdot x + b^{(1)}_j
+\end{align*}
+Ouput vector of the hidden layer $h^s$:
+\begin{align*}
+h^s = rect(h^a)  \\
+h^s_k = max(0,h^a_k)
+\end{align*}
+
+
+\subsection{}
+Dimensions of $W^{(2)}$ and $b^{(2)}$:
+\begin{align*}
+dim(W^{(2)}) = m \times d_h \\
+dim(b^{(2)}) = m \\
+\end{align*}
+Preactivation vector of neurons of the output layer $o^a$ where $w_j^{(2)}$ is the $j$-th row of $W^{(2)}$.
+\begin{align*}
+o^a=W^{(1)} \cdot h^s + b^{(1)} \\
+o^a_j = w_j^{(1)} \cdot h^s + b^{(1)}_j
+\end{align*}
+\subsection{}
+Ouput vector of the output layer $o^s$:
+\begin{align*}
+o^s = softmax(o^a)  \\
+o^s_k = \frac{e^{o^a_k}}{\sum\limits_{i=1}^m e^{o^a_i}}
+\end{align*}
+Since exponentials are always positive and both denominator and numerator are exponentials or sum of exponentials, $o^s_k$ has to be positive too.
+
+If we sum over all k for $o^s_k$, we receive:
+\begin{align*}
+\sum\limits_{j=1}^m \frac{e^{o^a_j}}{\sum\limits_{i=1}^m e^{o^a_i}} = \frac{\sum\limits_{j=1}^m e^{o^a_j}}{\sum\limits_{i=1}^m} = \frac{\sum\limits_{i=1}^m e^{o^a_i}}{\sum\limits_{i=1}^m e^{o^a_i}} = 1
+\end{align*}
+These two properties are important because $o^s$ is a probability distribution for each possible class.
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}
+\end{document}
