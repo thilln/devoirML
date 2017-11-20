@@ -177,12 +177,90 @@ If we sum over all k for $o^s_k$, we receive:
 \end{align*}
 These two properties are important because $o^s$ is a probability distribution for each possible class.
 \subsection{}
+Loss function given a probability $o_y^s(x)$ for a single input vector $x$ to be of class $y$: 
+\begin{align*}
+L(x,y) & = -log(o_y^s(x)) \\
+& = -log(\frac{e^{o^a_y}}{\sum\limits_{i=1}^m e^{o^a_i}}) \\
+& = -log(e^{o^a_y}) +log(\sum\limits_{i=1}^m e^{o^a_i}) \\
+& = -o^a_y+log(\sum\limits_{i=1}^m e^{o^a_i})
+\end{align*}
 \subsection{}
+What is $\hat{R}$? For a loss function $L$ and training data $D$:
+\begin{align*}
+\hat{R}(L,D) = \frac{1}{|D|} \sum\limits_d L(x^{(d)},y^{(d)})
+\end{align*}
+What is $\theta$?
+\begin{align*}
+\theta = \{W^{(1)},b^{(1)},W^{(2)},b^{(2)}\}
+\end{align*}
+How many scalar parameters $n_\theta$ are there?
+\begin{align*}
+n_\theta &= |W^{(1)}|+|b^{(1)}|+|W^{(2)}|+|b^{(2)}| \\
+&= d \cdot d_h + d_h + d_h \cdot m + m \\
+& = (d_h + 1)d+(m+1)d_h
+\end{align*}
+Optimization problem:
+\begin{align*}
+arg min_\theta \hat{R}(L,D) =argmin_\theta \sum\limits_d L(x^{(d)},y^{(d)})
+\end{align*}
 \subsection{}
+Batch gradient descent equation:
+\begin{align*}
+\theta \leftarrow \theta - \eta \frac{d\hat{R}}{d\theta}
+\end{align*}
 \subsection{}
+To show:
+\begin{align}
+\label{grad_oa}
+\triangledown L({o^a}) = o^s-onehot_m(y)
+\end{align}
+We have: 
+\begin{align*}
+\triangledown L({o^a}) & = \begin{pmatrix}
+... \\
+\frac{d}{do^a_k} -o^a_y+log(\sum\limits_{i=1}^m e^{o^a_i}) \\
+... \\
+\end{pmatrix} \\
+\end{align*}
+with
+\begin{align*}
+\frac{d}{do^a_k} -o^a_y+log(\sum\limits_{i=1}^m e^{o^a_i}) & = \begin{cases}
+               -1+\frac{e^{o^a_k}}{\sum\limits_{i=1}^m e^{o^a_i}}$, if $ y = k \\
+               0+\frac{e^{o^a_k}}{\sum\limits_{i=1}^m e^{o^a_i}}$, if $ y \neq k \\
+            \end{cases} \\
+            & = \begin{cases}
+               -1+ softmax(o^a_k)$, if $ y = k \\
+               softmax(o^a_k)$, if $ y \neq k \\
+            \end{cases} \\
+\end{align*}
+so \begin{align*}
+\triangledown L({o^a}) = o^s-onehot_m(y)
+\end{align*}
 \subsection{}
+grad\_oa=np...
 \subsection{}
+To compute: $\triangledown L(W^{(2)}), \triangledown L(b^{(2)})$.
+We know $\frac{d}{do^a_k} L$ and we have:
+\begin{align*}
+\frac{d}{dW^{(2)}_{k}} L &= \frac{d}{do^a_k} L \frac{d}{dW^{(2)}_{k}} o^a_k \\
+\frac{d}{db^{(2)}_{k}} L &= \frac{d}{do^a_k} L \frac{d}{db^{(2)}_{k}} o^a_k \\
+\end{align*}
+We have to compute:
+\begin{align*}
+\frac{d}{dW^{(2)}_{k}} o^a_k & = \frac{d}{dW^{(2)}_{k}} (W^{(2)}_{k} \cdot h^S + b^{(2)}) = h^S \\
+\frac{d}{db^{(2)}_{k}} o^a_k &= \frac{d}{dW^{(2)}_{k}} (W^{(2)}_{k} \cdot h^S + b^{(2)}) = 1
+\end{align*}
+Finally, we have:
+\begin{align*}
+\frac{d}{dW^{(2)}_{k}} L & = (o^s_k-onehot_m(y)) \cdot h^S \\
+\frac{d}{db^{(2)}_{k}} L & = o^s_k-onehot_m(y)
+\end{align*}
 \subsection{}
+In matrix form, we can write:
+\begin{align*}
+\triangledown L(W^{(2)}) & = (o^s-onehot_m(y))^T \cdot h^S \\
+\triangledown L(b^{(2)}) & = o^s-onehot_m(y)
+\end{align*}
 \subsection{}
 \subsection{}
 \subsection{}

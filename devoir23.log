@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300) (preloaded format=pdflatex 2017.5.14)  20 NOV 2017 12:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300) (preloaded format=pdflatex 2017.5.14)  20 NOV 2017 17:13
 entering extended mode
 **./devoir23.tex
 (devoir23.tex
@@ -550,36 +550,39 @@ LaTeX Font Info:    Try loading font information for U+bbm on input line 83.
 ("C:\Users\Paul Thillen\AppData\Local\Programs\MiKTeX 2.9\tex\latex\bbm\ubbm.fd
 "
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
-) [2] [3] [4] [5] (devoir23.aux) ) 
+) [2] [3] [4] [5] [6] [7] (devoir23.aux) ) 
 Here is how much of TeX's memory you used:
- 2069 strings out of 493358
- 26143 string characters out of 3127907
- 91493 words of memory out of 3000000
- 5585 multiletter control sequences out of 15000+200000
+ 2071 strings out of 493358
+ 26170 string characters out of 3127907
+ 91501 words of memory out of 3000000
+ 5587 multiletter control sequences out of 15000+200000
  12491 words of font info for 50 fonts, out of 3000000 for 9000
  1127 hyphenation exceptions out of 8191
- 27i,14n,32p,233b,199s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Paul Thillen\AppData\Local\MiKTeX\
-2.9\fonts\pk\ljfour\public\bbm\dpi600\bbm12.pk><C:/Users/Paul Thillen/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Pa
-ul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cme
-x10.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmmi12.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Paul Thillen/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Pau
-l Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
-2.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmr17.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Paul Thillen/AppData/Local
-/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Paul Thi
-llen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pf
-b><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmsy6.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Paul Thillen/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on devoir23.pdf (5 pages, 137684 bytes).
+ 27i,15n,32p,233b,199s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Paul Thillen\AppData\Local
+\MiKTeX\2.9\fonts\pk\ljfour\public\bbm\dpi600\bbm12.pk><C:/Users/Paul Thillen/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/
+Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmex10.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cmextra/cmex8.pfb><C:/Users/Paul Thillen/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Paul Thil
+len/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb>
+<C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmmi8.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Paul Thillen/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Paul Thillen
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/
+Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmr8.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Paul Thillen/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/Paul Thillen/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Use
+rs/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/s
+ymbols/msam10.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on devoir23.pdf (7 pages, 164479 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 91 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
