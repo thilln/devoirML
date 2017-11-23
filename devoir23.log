@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300) (preloaded format=pdflatex 2017.5.14)  22 NOV 2017 22:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300) (preloaded format=pdflatex 2017.5.14)  23 NOV 2017 11:38
 entering extended mode
 **./devoir23.tex
 (devoir23.tex
@@ -583,7 +583,7 @@ File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 Here is how much of TeX's memory you used:
  3667 strings out of 493358
  47255 string characters out of 3127907
- 114520 words of memory out of 3000000
+ 113520 words of memory out of 3000000
  7171 multiletter control sequences out of 15000+200000
  12491 words of font info for 50 fonts, out of 3000000 for 9000
  1127 hyphenation exceptions out of 8191
@@ -609,7 +609,7 @@ l Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
 8.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
 ic/amsfonts/symbols/msam10.pfb><C:/Users/Paul Thillen/AppData/Local/Programs/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on devoir23.pdf (10 pages, 174291 bytes).
+Output written on devoir23.pdf (10 pages, 174181 bytes).
 PDF statistics:
  100 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

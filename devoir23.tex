@@ -240,9 +240,8 @@ so \begin{align*}
 \end{align*}
 \subsection{}
 \begin{lstlisting}
-os = numpy.exp(oa) / numpy.sum(numpy.exp(oa))
 onehot = np.zeros(m)
-onehot[y] = 1
+onehot[y-1] = 1
 grad_oa= os - onehot
 \end{lstlisting}
 \subsection{}
@@ -262,17 +261,17 @@ Finally, we have:
 \frac{d}{dW^{(2)}_{k}} L & = (o^s_k-onehot_m(y)) \cdot h^S \\
 \frac{d}{db^{(2)}_{k}} L & = o^s_k-onehot_m(y)
 \end{align*}
-In Python:
-\begin{lstlisting}
-grad_b2 = grad_oa
-grad_W2 = numpy.dot(numpy.transpose(grad_oa),h_s)
-\end{lstlisting}
 \subsection{}
 In matrix form, we can write:
 \begin{align*}
 \triangledown L(W^{(2)}) & = (o^s-onehot_m(y))^T \cdot h^S \\
 \triangledown L(b^{(2)}) & = o^s-onehot_m(y)
 \end{align*}
+In Python:
+\begin{lstlisting}
+grad_b2 = grad_oa
+grad_W2 = numpy.dot(numpy.transpose(grad_oa),h_s)
+\end{lstlisting}
 \subsection{}
 To compute: $\triangledown L(h^s_j)$.
 We know $\frac{d}{do^a_k} L$ and we have:
