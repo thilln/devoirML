@@ -4,6 +4,8 @@
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage[utf8]{inputenc}
 \usepackage{bbm}
+\usepackage{listings}
+
  
 \DeclareMathOperator*{\argmin}{arg\,min}
  
@@ -13,7 +15,7 @@
 
  
 \title{Assignment 2 \& 3}%replace X with the appropriate number
-\author{Paul Thillen\\ %replace with your name
+\author{Paul Thillen et Louis-Philippe Noël\\ %replace with your name
 IFT3395/6390 - Machine learning} %if necessary, replace with your course title
  
 \maketitle
@@ -237,7 +239,12 @@ so \begin{align*}
 \triangledown L({o^a}) = o^s-onehot_m(y)
 \end{align*}
 \subsection{}
-grad\_oa=np...
+\begin{lstlisting}
+os = numpy.exp(oa) / numpy.sum(numpy.exp(oa))
+onehot = np.zeros(m)
+onehot[y] = 1
+grad_oa= os - onehot
+\end{lstlisting}
 \subsection{}
 To compute: $\triangledown L(W^{(2)}), \triangledown L(b^{(2)})$.
 We know $\frac{d}{do^a_k} L$ and we have:
@@ -255,6 +262,11 @@ Finally, we have:
 \frac{d}{dW^{(2)}_{k}} L & = (o^s_k-onehot_m(y)) \cdot h^S \\
 \frac{d}{db^{(2)}_{k}} L & = o^s_k-onehot_m(y)
 \end{align*}
+In Python:
+\begin{lstlisting}
+grad_b2 = grad_oa
+grad_W2 = numpy.dot(numpy.transpose(grad_oa),h_s)
+\end{lstlisting}
 \subsection{}
 In matrix form, we can write:
 \begin{align*}
@@ -262,10 +274,104 @@ In matrix form, we can write:
 \triangledown L(b^{(2)}) & = o^s-onehot_m(y)
 \end{align*}
 \subsection{}
+To compute: $\triangledown L(h^s_j)$.
+We know $\frac{d}{do^a_k} L$ and we have:
+\begin{align*}
+\frac{d}{dh^s_j} {o^a_k} &= \frac{d}{dh^s_j} (W^{(2)}_{j} \cdot h^S + b^{(2)}) = W^{(2)}_{j} \\
+\end{align*}
+With the sum, we have:
+\begin{align*}
+\triangledown L(h^s_j) = \sum\limits_{k=1}^m \frac{dL}{do^a_k} \frac{d{o^a_k}}{dh^s_j} = 
+\sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j}
+\end{align*}
 \subsection{}
+In matrix form, we can write :
+\begin{align*}
+\triangledown L(h^s_j) =(W^{(2)}_j)^T [o^s - onehot_m(y)]
+\end{align*}
+Dimensions :
+\begin{align*}
+dim(W^{(2)}_j ) = 1 \times d \\
+dim([o^s - onehot_m(y)]) = 1 \times j \\
+\end{align*}
 \subsection{}
+Let's start by differentiating rect(z) :
+\begin{align*}
+\frac{d}{dz} {rect(z)} = rect'(z) = \begin{cases}
+               h^a_j$, if $ h^a_j > 0 \\
+               0$, if $ h^a_j \leq 0  \\
+            \end{cases} 
+\end{align*}
+To compute: $\triangledown L(h^a_j)$.
+We know $\frac{d}{dh^s_j} L$ and we have:
+\begin{align*}
+\frac{d}{dh^a_j} {h^s_j} &=  \begin{cases}
+               h^a_j$, if $ h^a_j > 0 \\
+               0$, if $ h^a_j \leq 0  \\
+            \end{cases}  \\
+\end{align*}
+Finally, we have:
+\begin{align*}
+\frac{d}{dh^a_j} L & = \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0}
+\end{align*}
 \subsection{}
+In matrix form, we can write :
+\begin{align*}
+\triangledown L(h^a_j) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \times I_{h^a_j > 0}
+\end{align*}
+Dimensions :
+\begin{align*}
+dim(W^{(2)}_j ) = 1 \times d \\
+dim([o^s - onehot_m(y)]) = 1 \times j \\
+dim(I_{h^a_j > 0}) = 1 
+\end{align*}
 \subsection{}
+To compute: $\triangledown L(W^{(1)}), \triangledown L(b^{(1)})$.
+We know $\frac{d}{dh^a_j} L$ and we have:
+\begin{align*}
+\frac{d}{dW^{(1)}} L &= \frac{d}{dh^a_j} L \frac{d}{dW^{(1)}} h^a_j \\
+\frac{d}{db^{(1)}} L &= \frac{d}{dh^a_j} L \frac{d}{db^{(1)}} h^a_j \\
+\end{align*}
+We have to compute:
+\begin{align*}
+\frac{d}{dW^{(1)}} h^a_j & = \frac{d}{dW^{(1)}} (W^{(1)} \cdot X + b^{(1)}) = X \\
+\frac{d}{db^{(1)}_{k}} h^a_j &= \frac{d}{db^{(1)}} (W^{(1)}_{k} \cdot X + b^{(1)}) = 1
+\end{align*}
+Finally, we have:
+\begin{align*}
+\frac{d}{dW^{(1)}} L & =  \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \cdot X \\
+\frac{d}{db^{(1)}} L & =   \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \\
+\end{align*}
 \subsection{}
+In matrix form, we can write :
+\begin{align*}
+\triangledown L(W^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \times I_{h^a_j > 0} \cdot X \\
+\triangledown L(b^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \times I_{h^a_j > 0} \\
+\end{align*}
+Dimensions :
+\begin{align*}
+dim(W^{(2)}_j ) = 1 \times d \\
+dim([o^s - onehot_m(y)]) = 1 \times j \\
+dim(I_{h^a_j > 0}) = 1 \\
+dim(X) = i \times d \\
+\end{align*}
 \subsection{}
+The gradient of L by X is :
+\begin{align*}
+\triangledown L(X) = \sum\limits_{k=1}^m \frac{dL}{dh^a_k} \frac{d{h^a_k}}{dX} \\
+\end{align*}
+We know $\frac{d}{dh^a_k} L$ and we have:
+\begin{align*}
+\frac{d}{dX} h^a_k & = \frac{d}{dX} (W^{(1)}_k \cdot X + b^{(1)}) = W^{(1)}_k \\
+\end{align*}
+Finally, we have:
+\begin{align*}
+\frac{d}{dX} L &  = \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k} \times I_{h^a_j > 0} \cdot W^{(1)}_{k} \\
+\end{align*}
+\subsection{}
+We have two parameters: W and b. The gradient of b is unchanged. The gradient of W will be affected by the deduction of its sign $(L^1)$ and by the addition of two times its value $(L^2)$ :
+\begin{align*}
+\frac{d}{dW^{(2)}_{k}} L & = (o^s_k-onehot_m(y)) \cdot h^S + 2 \times W^{(2)}_k - sign(W^{(2)}_k)\\ 
+\frac{d}{dW^{(1)}} L & =  \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \cdot X+ 2 \times W^{(1)}_k - sign(W^{(1)}_k) \\
+\end{align*}
 \end{document}
