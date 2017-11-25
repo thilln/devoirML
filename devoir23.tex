@@ -246,7 +246,7 @@ grad_oa= os - onehot
 \end{lstlisting}
 \subsection{}
 To compute: $\triangledown L(W^{(2)}), \triangledown L(b^{(2)})$.
-We know $\frac{d}{do^a_k} L$ and we have:
+We know $\frac{d}{do^a_k} L$ and we have with $W_k$ being the $k$-th line of $W$:
 \begin{align*}
 \frac{d}{dW^{(2)}_{k}} L &= \frac{d}{do^a_k} L \frac{d}{dW^{(2)}_{k}} o^a_k \\
 \frac{d}{db^{(2)}_{k}} L &= \frac{d}{do^a_k} L \frac{d}{db^{(2)}_{k}} o^a_k \\
@@ -264,65 +264,76 @@ Finally, we have:
 \subsection{}
 In matrix form, we can write:
 \begin{align*}
-\triangledown L(W^{(2)}) & = (o^s-onehot_m(y))^T \cdot h^S \\
-\triangledown L(b^{(2)}) & = o^s-onehot_m(y)
+\triangledown L(W^{(2)}) & = (o^s-onehot_m(y)) \cdot (h^S)^T \in m \times d_h \\
+\triangledown L(b^{(2)}) & = o^s-onehot_m(y) \in m \times 1
+\end{align*}
+Dimensions: \begin{align*}
+o^s-onehot_m(y) \in 1 \times m \\
+h^S \in 1 \times d_h \\
+(h^S)^T \in d_h \times 1 \\
 \end{align*}
 In Python:
 \begin{lstlisting}
 grad_b2 = grad_oa
-grad_W2 = numpy.dot(numpy.transpose(grad_oa),h_s)
+grad_W2 = numpy.dot(grad_oa,numpy.transpose(h_s))
 \end{lstlisting}
 \subsection{}
-To compute: $\triangledown L(h^s_j)$.
-We know $\frac{d}{do^a_k} L$ and we have:
+To compute: 
 \begin{align*}
-\frac{d}{dh^s_j} {o^a_k} &= \frac{d}{dh^s_j} (W^{(2)}_{j} \cdot h^S + b^{(2)}) = W^{(2)}_{j} \\
+\frac{d}{dh^s_j}L = \sum\limits_{k=1}^m \frac{dL}{do_k^a} \frac{d}{dh_j^s}o_k^a
 \end{align*}
-With the sum, we have:
+The only unknown is $\frac{d}{dh_j^s}o_k^a$. We have:
 \begin{align*}
-\triangledown L(h^s_j) = \sum\limits_{k=1}^m \frac{dL}{do^a_k} \frac{d{o^a_k}}{dh^s_j} = 
-\sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j}
+\frac{d}{dh^s_j} {o^a_k} &= \frac{d}{dh^s_j} (W^{(2)}_{k} \cdot h^S + b^{(2)}) = w^{(2)}_{k,j} \\
+\end{align*}
+$w_{k,j}$ being the $j$-th column of the $k$-th line of $W$. With the sum, we have:
+\begin{align*}
+\frac{d}{dh^s_j}L = \sum\limits_{k=1}^m \frac{dL}{do^a_k} \frac{d{o^a_k}}{dh^s_j} = 
+\sum\limits_{k=1}^m \frac{dL}{do^a_k}  w^{(2)}_{k,j}=(W^{(2)}_{\bullet,j})^T \frac{dL}{do^a} 
 \end{align*}
 \subsection{}
 In matrix form, we can write :
 \begin{align*}
-\triangledown L(h^s_j) =(W^{(2)}_j)^T [o^s - onehot_m(y)]
+\triangledown L(h^s) =(W^{(2)})^T  \frac{dL}{do^a} \in d_h \times 1
 \end{align*}
 Dimensions :
 \begin{align*}
-dim(W^{(2)}_j ) = 1 \times d \\
-dim([o^s - onehot_m(y)]) = 1 \times j \\
+dim((W^{(2)})^T ) = d_h \times m \\
+dim(\frac{dL}{do^a}) = m \times 1 \\
 \end{align*}
 \subsection{}
-Let's start by differentiating rect(z) :
+From theoretical part A we know that :
 \begin{align*}
-\frac{d}{dz} {rect(z)} = rect'(z) = \begin{cases}
-               h^a_j$, if $ h^a_j > 0 \\
-               0$, if $ h^a_j \leq 0  \\
-            \end{cases} 
+rect'(x) = \begin{cases}
+               1$, if $ x > 0 \\
+               0$, if $ x \leq 0  \\
+            \end{cases} = \mathbbm{1}_{\{x>0\}}(x)
 \end{align*}
-To compute: $\triangledown L(h^a_j)$.
+To compute: 
+\begin{align*}
+\frac{d}{dh^a_j} L =\frac{dL}{dh_j^s} \frac{d}{dh^a_j} h_j^s
+\end{align*}
 We know $\frac{d}{dh^s_j} L$ and we have:
 \begin{align*}
-\frac{d}{dh^a_j} {h^s_j} &=  \begin{cases}
-               h^a_j$, if $ h^a_j > 0 \\
+\frac{d}{dh^a_j} {h^s_j} = \frac{d}{dh^a_j} {rect(h^a_j)} &=  \begin{cases}
+               1$, if $ h^a_j > 0 \\
                0$, if $ h^a_j \leq 0  \\
-            \end{cases}  \\
+            \end{cases}  \\ = \mathbbm{1}_{\{h^a_j>0\}}(h^a_j)
 \end{align*}
 Finally, we have:
 \begin{align*}
-\frac{d}{dh^a_j} L & = \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0}
+\frac{d}{dh^a_j} L & = (W^{(2)}_{\bullet,j})^T \frac{dL}{do^a}  \mathbbm{1}_{\{h^a_j>0\}}(h^a_j)
 \end{align*}
 \subsection{}
 In matrix form, we can write :
 \begin{align*}
-\triangledown L(h^a_j) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \times I_{h^a_j > 0}
+\triangledown L(h^a) = ?
 \end{align*}
 Dimensions :
 \begin{align*}
-dim(W^{(2)}_j ) = 1 \times d \\
-dim([o^s - onehot_m(y)]) = 1 \times j \\
-dim(I_{h^a_j > 0}) = 1 
+dim((W^{(2)})^T ) = d_h \times m \\
+dim(\frac{dL}{do^a}) = m \times 1 \\
+dim(\mathbbm{1}_{\{h^a_j>0\}}(h^a_j)) = d_h \times 1 \\
 \end{align*}
 \subsection{}
 To compute: $\triangledown L(W^{(1)}), \triangledown L(b^{(1)})$.
@@ -333,19 +344,19 @@ We know $\frac{d}{dh^a_j} L$ and we have:
 \end{align*}
 We have to compute:
 \begin{align*}
-\frac{d}{dW^{(1)}} h^a_j & = \frac{d}{dW^{(1)}} (W^{(1)} \cdot X + b^{(1)}) = X \\
-\frac{d}{db^{(1)}_{k}} h^a_j &= \frac{d}{db^{(1)}} (W^{(1)}_{k} \cdot X + b^{(1)}) = 1
+\frac{d}{dW^{(1)}} h^a_j & = \frac{d}{dW^{(1)}} (W^{(1)} \cdot x + b^{(1)}) = x \\
+\frac{d}{db^{(1)}_{k}} h^a_j &= \frac{d}{db^{(1)}} (W^{(1)}_{k} \cdot x + b^{(1)}) = 1
 \end{align*}
 Finally, we have:
 \begin{align*}
-\frac{d}{dW^{(1)}} L & =  \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \cdot X \\
+\frac{d}{dW^{(1)}} L & =  \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \cdot x \\
 \frac{d}{db^{(1)}} L & =   \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \\
 \end{align*}
 \subsection{}
 In matrix form, we can write :
 \begin{align*}
-\triangledown L(W^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \times I_{h^a_j > 0} \cdot X \\
-\triangledown L(b^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \times I_{h^a_j > 0} \\
+\triangledown L(W^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \cdot I_{h^a_j > 0} \cdot x \\
+\triangledown L(b^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \cdot I_{h^a_j > 0} \\
 \end{align*}
 Dimensions :
 \begin{align*}
