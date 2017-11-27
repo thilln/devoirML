@@ -264,11 +264,11 @@ Finally, we have:
 \subsection{}
 In matrix form, we can write:
 \begin{align*}
-\triangledown L(W^{(2)}) & = (o^s-onehot_m(y)) \cdot (h^S)^T \in m \times d_h \\
-\triangledown L(b^{(2)}) & = o^s-onehot_m(y) \in m \times 1
+\triangledown L(W^{(2)}) & = \triangledown L(o^a) \cdot (h^S)^T \in m \times d_h \\
+\triangledown L(b^{(2)}) & = \triangledown L(o^a) \in m \times 1
 \end{align*}
 Dimensions: \begin{align*}
-o^s-onehot_m(y) \in 1 \times m \\
+\triangledown L(o^a) \in 1 \times m \\
 h^S \in 1 \times d_h \\
 (h^S)^T \in d_h \times 1 \\
 \end{align*}
@@ -294,12 +294,12 @@ $w_{k,j}$ being the $j$-th column of the $k$-th line of $W$. With the sum, we ha
 \subsection{}
 In matrix form, we can write :
 \begin{align*}
-\triangledown L(h^s) =(W^{(2)})^T  \frac{dL}{do^a} \in d_h \times 1
+\triangledown L(h^s) =(W^{(2)})^T  \triangledown L(o^a) \in d_h \times 1
 \end{align*}
 Dimensions :
 \begin{align*}
 dim((W^{(2)})^T ) = d_h \times m \\
-dim(\frac{dL}{do^a}) = m \times 1 \\
+dim(\triangledown L(o^a)) = m \times 1 \\
 \end{align*}
 \subsection{}
 From theoretical part A we know that :
@@ -322,66 +322,59 @@ We know $\frac{d}{dh^s_j} L$ and we have:
 \end{align*}
 Finally, we have:
 \begin{align*}
-\frac{d}{dh^a_j} L & = (W^{(2)}_{\bullet,j})^T \frac{dL}{do^a}  \mathbbm{1}_{\{h^a_j>0\}}(h^a_j)
+\frac{d}{dh^a_j} L & = (W^{(2)}_{\bullet,j})^T \triangledown L(o^a)  \mathbbm{1}_{\{h^a_j>0\}}(h^a_j)
 \end{align*}
 \subsection{}
-In matrix form, we can write :
+In matrix form, we can write with $\odot$ being element-wise multiplication:
 \begin{align*}
-\triangledown L(h^a) = ?
+\triangledown L(h^a) = \triangledown L(h^s) \odot \mathbbm{1}_{\{h^a_j>0\}}(h^a_j) 
 \end{align*}
 Dimensions :
 \begin{align*}
-dim((W^{(2)})^T ) = d_h \times m \\
-dim(\frac{dL}{do^a}) = m \times 1 \\
+dim(\triangledown L(h^s)) = d_h \times 1 \\
 dim(\mathbbm{1}_{\{h^a_j>0\}}(h^a_j)) = d_h \times 1 \\
 \end{align*}
 \subsection{}
 To compute: $\triangledown L(W^{(1)}), \triangledown L(b^{(1)})$.
 We know $\frac{d}{dh^a_j} L$ and we have:
 \begin{align*}
-\frac{d}{dW^{(1)}} L &= \frac{d}{dh^a_j} L \frac{d}{dW^{(1)}} h^a_j \\
-\frac{d}{db^{(1)}} L &= \frac{d}{dh^a_j} L \frac{d}{db^{(1)}} h^a_j \\
+\frac{d}{dW^{(1)}_j} L &= \frac{d}{dh^a_j} L \frac{d}{dW^{(1)}_j} h^a_j \\
+\frac{d}{db^{(1)}_j} L &= \frac{d}{dh^a_j} L \frac{d}{db^{(1)}_j} h^a_j \\
 \end{align*}
 We have to compute:
 \begin{align*}
-\frac{d}{dW^{(1)}} h^a_j & = \frac{d}{dW^{(1)}} (W^{(1)} \cdot x + b^{(1)}) = x \\
-\frac{d}{db^{(1)}_{k}} h^a_j &= \frac{d}{db^{(1)}} (W^{(1)}_{k} \cdot x + b^{(1)}) = 1
+\frac{d}{dW^{(1)}_j} h^a_j & = \frac{d}{dW^{(1)}_j} (W^{(1)}_j \cdot x + b^{(1)}) = x \\
+\frac{d}{db^{(1)}_{j}} h^a_j &= \frac{d}{db^{(1)}} (W^{(1)}_{j} \cdot x + b^{(1)}) = 1
 \end{align*}
 Finally, we have:
 \begin{align*}
-\frac{d}{dW^{(1)}} L & =  \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \cdot x \\
-\frac{d}{db^{(1)}} L & =   \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \\
+\frac{d}{dW^{(1)}_j} L &= \frac{d}{dh^a_j} L \cdot x\\
+\frac{d}{db^{(1)}_j} L &= \frac{d}{dh^a_j} L
 \end{align*}
 \subsection{}
 In matrix form, we can write :
 \begin{align*}
-\triangledown L(W^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \cdot I_{h^a_j > 0} \cdot x \\
-\triangledown L(b^{(1)}) =(W^{(2)}_j)^T [o^s - onehot_m(y)] \cdot I_{h^a_j > 0} \\
+\triangledown L(W^{(1)})  & =  \triangledown L(h^a) \cdot x^T \in d^h \times d\\
+\triangledown L(b^{(1)})  & = \triangledown L(h^a) 
 \end{align*}
 Dimensions :
 \begin{align*}
-dim(W^{(2)}_j ) = 1 \times d \\
-dim([o^s - onehot_m(y)]) = 1 \times j \\
-dim(I_{h^a_j > 0}) = 1 \\
-dim(X) = i \times d \\
+dim(\triangledown L(h^a)) = d_h \times 1 \\
+dim(x) = d \times 1 \\
 \end{align*}
 \subsection{}
-The gradient of L by X is :
+Following the same logic than in question 2.13,we have:
 \begin{align*}
-\triangledown L(X) = \sum\limits_{k=1}^m \frac{dL}{dh^a_k} \frac{d{h^a_k}}{dX} \\
+\frac{dL}{dx} = \sum\limits_{k=1}^{d_h} \frac{dL}{dh^a_k} \frac{dh^a_k}{dx_j} = (W^{(1)}_{\bullet,j})^T \frac{dL}{dh^a}
 \end{align*}
-We know $\frac{d}{dh^a_k} L$ and we have:
+And in matrix form:
 \begin{align*}
-\frac{d}{dX} h^a_k & = \frac{d}{dX} (W^{(1)}_k \cdot X + b^{(1)}) = W^{(1)}_k \\
-\end{align*}
-Finally, we have:
-\begin{align*}
-\frac{d}{dX} L &  = \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k} \times I_{h^a_j > 0} \cdot W^{(1)}_{k} \\
+\triangledown L(x) = (W^{(2)})^T \triangledown L (h^a)
 \end{align*}
 \subsection{}
-We have two parameters: W and b. The gradient of b is unchanged. The gradient of W will be affected by the deduction of its sign $(L^1)$ and by the addition of two times its value $(L^2)$ :
-\begin{align*}
-\frac{d}{dW^{(2)}_{k}} L & = (o^s_k-onehot_m(y)) \cdot h^S + 2 \times W^{(2)}_k - sign(W^{(2)}_k)\\ 
-\frac{d}{dW^{(1)}} L & =  \sum\limits_{k=1}^m [o^s_k - onehot_m(y)]  W^{(2)}_{k,j} \times I_{h^a_j > 0} \cdot X+ 2 \times W^{(1)}_k - sign(W^{(1)}_k) \\
+We have two parameters: $W$ and $b$. The gradient of b is unchanged. The gradient of W will be affected by the deduction of its sign $(L^1)$ and by the addition of two times its value $(L^2)$ :
+\begin{align*} 
+\triangledown L(W^{(2)}) & = \triangledown L(o^a) \cdot (h^S)^T + 2 \cdot W^{(2)} - sign(W^{(2)}) \\
+\triangledown L(W^{(1)}) & = \triangledown L(h^a) \cdot x^T + 2 \cdot W^{(1)} - sign(W^{(1)}) \\
 \end{align*}
 \end{document}
