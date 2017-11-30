@@ -301,6 +301,10 @@ Dimensions :
 dim((W^{(2)})^T ) = d_h \times m \\
 dim(\triangledown L(o^a)) = m \times 1 \\
 \end{align*}
+In Python:
+\begin{lstlisting}
+grad_hs = numpy.dot(numpy.transpose(W2),grad_oa)
+\end{lstlisting}
 \subsection{}
 From theoretical part A we know that :
 \begin{align*}
@@ -334,6 +338,10 @@ Dimensions :
 dim(\triangledown L(h^s)) = d_h \times 1 \\
 dim(\mathbbm{1}_{\{h^a_j>0\}}(h^a_j)) = d_h \times 1 \\
 \end{align*}
+In Python:
+\begin{lstlisting}
+grad_ha = numpy.multiply(grad_hs, indicator(ha))
+\end{lstlisting}
 \subsection{}
 To compute: $\triangledown L(W^{(1)}), \triangledown L(b^{(1)})$.
 We know $\frac{d}{dh^a_j} L$ and we have:
@@ -362,6 +370,11 @@ Dimensions :
 dim(\triangledown L(h^a)) = d_h \times 1 \\
 dim(x) = d \times 1 \\
 \end{align*}
+In Python:
+\begin{lstlisting}
+grad_b1 = grad_ha
+grad_W1 = numpy.dot(grad_ha,numpy.transpose(x))
+\end{lstlisting}
 \subsection{}
 Following the same logic than in question 2.13,we have:
 \begin{align*}
@@ -371,10 +384,18 @@ And in matrix form:
 \begin{align*}
 \triangledown L(x) = (W^{(1)})^T \triangledown L (h^a)
 \end{align*}
+In Python:
+\begin{lstlisting}
+grad_b2 = numpy.dot(numpy.tranpose(W1),grad_ha)
+\end{lstlisting}
 \subsection{}
 We have two parameters: $W$ and $b$. The gradient of b is unchanged. The gradient of W will be affected by the deduction of its sign $(L^1)$ and by the addition of two times its value $(L^2)$ :
 \begin{align*} 
 \triangledown L(W^{(2)}) & = \triangledown L(o^a) \cdot (h^S)^T + 2 \cdot W^{(2)} - sign(W^{(2)}) \\
 \triangledown L(W^{(1)}) & = \triangledown L(h^a) \cdot x^T + 2 \cdot W^{(1)} - sign(W^{(1)}) \\
 \end{align*}
+\begin{lstlisting}
+grad_w2_el = grad_w2+2*w2-np.sign(w2)
+grad_w1_el = grad_w1+2*w1-np.sign(w1)
+\end{lstlisting}
 \end{document}
